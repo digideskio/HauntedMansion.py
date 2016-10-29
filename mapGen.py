@@ -2,7 +2,9 @@ from location import Location
 import random
 import mazeGen
 from item import Item
-import name.indefiniteName
+from name.indefiniteName import IndefiniteName
+from name.adjective import Adjective
+from name.noun import Noun
 
 roomTemplates = [
 		("Cavernous Hall", "Flying buttresses support the lofty ceiling."),
@@ -45,13 +47,13 @@ def createMaze(width, height):
 def makeItem():
 	val = random.random()
 	if val > 0.75:
-		return Item(name.indefiniteName.IndefiniteName("exquisite candlestick"))
+		return Item(IndefiniteName(Adjective("exquisite", Noun("candlestick"))))
 	elif val > 0.50:
-		return Item(name.indefiniteName.IndefiniteName("rusty lantern"))
+		return Item(IndefiniteName(Adjective("wooden", Noun("candlestick"))))
 	elif val > 0.25:
-		return Item(name.indefiniteName.IndefiniteName("torch"))
+		return Item(IndefiniteName(Adjective("unburnt", Noun("torch"))))
 	else:
-		return Item(name.indefiniteName.IndefiniteName("book of matches"))
+		return Item(IndefiniteName(Adjective("silver", Noun("dagger"))))
 	
 def makeLocation():
 	(name, description) = random.choice(roomTemplates)
@@ -59,11 +61,11 @@ def makeLocation():
 	
 	location = Location(name, description)
 	
-	if random.random() > 0.5:
+	if random.random() > 0.0:
 		numItems = random.randint(1, 3)
 		for i in range(numItems):
 			item = makeItem()
-			location.inventory.append(item)
+			location.inventory.add(item)
 	
 	return location
 	

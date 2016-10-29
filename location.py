@@ -1,9 +1,12 @@
+
+from inventory import Inventory
+
 class Location(object):
 	def __init__(self, name, description):
 		self.name = name
 		self.description = description
 		self.doors = {}
-		self.inventory = []
+		self.inventory = Inventory()
 		
 	def addDoor(self, direction, location):
 		self.doors[direction] = location

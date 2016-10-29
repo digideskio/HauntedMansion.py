@@ -1,6 +1,6 @@
 
 def isVowel(char):
-	return char in 'aeoioAEIOU'
+	return char in 'aeoiuAEIOU'
 	
 def startsWithVowel(word):
 	return isVowel(word[0])
