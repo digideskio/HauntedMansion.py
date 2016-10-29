@@ -15,3 +15,6 @@ class IndefiniteName(object):
 		
 	def simplify(self):
 		return IndefiniteName(self.clause.simplify())
+		
+	def identifiedBy(self, name):
+		return name in [self.clause.toString(), self.clause.simplify().toString()]

@@ -47,6 +47,16 @@ class Game(object):
 			else:
 				print(weaponStr + ".")
 				print("You carry " + formatting.oxfordComma(itemNames) + ".")
+				
+	def get(self, name):
+		validItems = self.playerLocation.inventory.identify(name)
+		if (validItems):
+			itemToGet = validItems[0]
+			self.playerLocation.inventory.remove(itemToGet)
+			self.player.inventory.add(itemToGet)
+			print("You collect " + itemToGet.name.simplify().getDefinite() + ".")
+		else:
+			print("There is nothing here called \"" + name + "\".")
 			
 	def movePlayer(self, door):
 		if not self.playerLocation.hasDoor(door):

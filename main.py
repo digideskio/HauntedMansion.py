@@ -8,6 +8,7 @@ def main():
 	game.look()
 	
 	while(True):
+		print()
 		command = input(">")
 		execute(command, game)
 	
@@ -15,13 +16,19 @@ def execute(command, game):
 	words = command.split(" ")
 	if not words:
 		return
+		
+	first = words[0]
+	rest = " ".join(words[1:])
 
-	if (words[0] == "look"):		
+	if (first == "look"):		
 		game.look()
-	elif (words[0] == "go" or words[0] == "move"):
+	elif (first in ["go", "move"]):
 		game.movePlayer(words[1])
-	elif (words[0] == "inventory"):
+	elif (first == "inventory"):
 		game.inventory()
+	elif (first == "get"):
+		# TODO validate rest
+		game.get(rest)
 	else:
 		print("Command not recognized");
 
