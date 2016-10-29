@@ -52,7 +52,7 @@ def makeItem():
 	elif val > 0.25:
 		return Item(Noun("key"))
 	else:
-		return Item(Adjective("silver", Noun("dagger")))
+		return Item(Adjective("silver", Noun("dagger")), isWeapon=True)
 	
 def makeLocation():
 	(name, description) = random.choice(roomTemplates)

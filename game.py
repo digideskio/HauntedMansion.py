@@ -2,6 +2,7 @@ import mapGen
 import formatting
 from nounPhrase.adjective import Adjective
 from nounPhrase.noun import Noun
+from nounPhrase.alwaysDefinite import AlwaysDefinite
 from item import Item
 from player import Player
 from colorama import Fore, Back, Style
@@ -11,8 +12,12 @@ class Game(object):
 		print("[creating a new game]")
 		(maze, starting) = mapGen.createMaze(10, 10)
 		self.playerLocation = starting
+		
+		# Initalize the player and starting items
 		self.player = Player()
-		self.player.weapon = Item(Adjective("rusty", Noun("dagger")))
+		self.player.weapon = Item(Adjective("rusty", Noun("dagger")), isWeapon=True)
+		mansionKey = Item(AlwaysDefinite(Adjective("mansion", Noun("key"))))
+		self.player.inventory.add(mansionKey)
 		
 	def look(self):
 		print(formatting.title(self.playerLocation.name))
@@ -33,16 +38,16 @@ class Game(object):
 			
 	def inventory(self):
 		itemNames = formatting.itemNamesIndefinite(self.player.inventory.items)
+		weapon = self.player.weapon
 	
-		if not self.player.weapon:
+		if not weapon:
 			if not self.player.inventory.items:
 				print("You are unarmed and carry nothing.")
 			else:
 				print("You are unarmed.")
 				print("You carry " + formatting.oxfordComma(itemNames) + ".")
 		else:
-			weaponName = self.player.weapon.name.makeIndefinite().toString()
-			weaponStr = "You are armed with " + formatting.itemName(weaponName)
+			weaponStr = "You are armed with " + formatting.itemName(weapon, weapon.name.makeIndefinite())
 			if not self.player.inventory.items:
 				print(weaponStr + ", and carry no other items.")
 			else:
@@ -55,8 +60,8 @@ class Game(object):
 			itemToGet = validItems[0]
 			self.playerLocation.inventory.remove(itemToGet)
 			self.player.inventory.add(itemToGet)
-			simpleItemName = itemToGet.name.stripAdjectives().makeDefinite().toString()
-			print("You collect " + formatting.itemName(simpleItemName) + ".")
+			simpleItemName = itemToGet.name.stripAdjectives().makeDefinite()
+			print("You collect " + formatting.itemName(itemToGet, simpleItemName) + ".")
 		else:
 			print("There is nothing here called \"" + name + "\".")
 			

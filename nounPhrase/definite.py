@@ -5,8 +5,11 @@ class Definite(object):
 	def __init__(self, nounPhrase):
 		self.nounPhrase = nounPhrase
 		
-	def toString(self):
-		return "the " + self.nounPhrase.toString()
+	def toString(self, formatNonArticles=None):
+		phraseString = self.nounPhrase.toString()
+		if (formatNonArticles):
+			phraseString = formatNonArticles(phraseString)
+		return "the " + phraseString
 	
 	def makeDefinite(self):
 		return self

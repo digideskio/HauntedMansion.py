@@ -5,9 +5,12 @@ class Indefinite(object):
 	def __init__(self, nounPhrase):
 		self.nounPhrase = nounPhrase
 		
-	def toString(self):
+	def toString(self, formatNonArticles=None):
 		phraseString = self.nounPhrase.toString()
-		return ("an " if nounPhraseModule.startsWithVowel(phraseString) else "a ") + phraseString
+		startsWithVowel = nounPhraseModule.startsWithVowel(phraseString)
+		if (formatNonArticles):
+			phraseString = formatNonArticles(phraseString)
+		return ("an " if startsWithVowel else "a ") + phraseString
 	
 	def makeDefinite(self):
 		return nounPhraseModule.Definite(self.nounPhrase)
