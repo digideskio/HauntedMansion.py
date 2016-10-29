@@ -1,6 +1,9 @@
 from game import Game
+import colorama
 
 def main():	
+	colorama.init()
+	
 	game = Game()
 	print("Welome to the game.")
 	print()
