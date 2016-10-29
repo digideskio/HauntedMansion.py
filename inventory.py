@@ -11,4 +11,4 @@ class Inventory(object):
 				
 	# return a list of items in this inventory that can be identified by the given name
 	def identify(self, name):
-		return [item for item in self.items if item.identifiedBy(name)]
+		return [item for item in self.items if item.isIdentifiedBy(name)]

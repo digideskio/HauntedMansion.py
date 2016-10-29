@@ -16,8 +16,8 @@ def title(string):
 def door(string):
 	return Fore.GREEN + string + Style.RESET_ALL
 	
-def itemNames(items):
-	return [itemName(item.name.getDeclarative()) for item in items]
+def itemNamesIndefinite(items):
+	return [itemName(item.name.makeIndefinite().toString()) for item in items]
 	
 def itemName(string):
 	return Fore.YELLOW + string + Style.RESET_ALL
