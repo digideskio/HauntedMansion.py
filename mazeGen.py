@@ -12,6 +12,7 @@ class Cell(object):
 		self.visited = visited
 		self.doors = doors
 		self.walls = walls
+		self.distance = 0 # distance from entrance
 
 def getCell(grid, pos):
 	(row, col) = pos
@@ -28,6 +29,8 @@ def opposite(direction):
 		return "East"
 	
 def connectCells(wall, source, dest):
+	dest.distance = source.distance + 1
+
 	for sourceWall in source.walls:
 		if sourceWall.direction == wall.direction:
 			# Change the wall to a door
@@ -44,6 +47,7 @@ def connectCells(wall, source, dest):
 # Creates a map using a randomized Prim's algorithm
 # The map is a minimum spanning tree of the grid, that is, it contains no cycles.
 def randomizedPrim(mapWidth, mapHeight):
+	print("...generating maze layout")
 	# Initalize the grid
 	grid = []
 	for row in range(0, mapHeight):

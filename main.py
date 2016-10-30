@@ -3,9 +3,10 @@ import colorama
 
 def main():	
 	colorama.init()
-	
-	game = Game()
 	print("Welome to the game.")
+	
+	print()
+	game = Game()
 	print()
 	
 	game.look()
