@@ -11,6 +11,9 @@ class Indefinite(object):
 		if (formatNonArticles):
 			phraseString = formatNonArticles(phraseString)
 		return ("an " if startsWithVowel else "a ") + phraseString
+		
+	def pluralize(self):
+		return Indefinite(self.nounPhrase.pluralize())
 	
 	def makeDefinite(self):
 		return nounPhraseModule.Definite(self.nounPhrase)

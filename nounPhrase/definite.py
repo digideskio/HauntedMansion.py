@@ -10,6 +10,9 @@ class Definite(object):
 		if (formatNonArticles):
 			phraseString = formatNonArticles(phraseString)
 		return "the " + phraseString
+		
+	def pluralize(self):
+		return Definite(self.nounPhrase.pluralize())
 	
 	def makeDefinite(self):
 		return self

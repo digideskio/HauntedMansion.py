@@ -26,7 +26,8 @@ class Game(object):
 		
 		# Show items
 		if self.playerLocation.inventory.items:
-			itemNames = formatting.itemNamesIndefinite(self.playerLocation.inventory.items)
+			itemNames = formatting.inventoryItems(self.playerLocation.inventory)
+			# itemNames = formatting.itemNamesIndefinite(self.playerLocation.inventory.items)
 			print("The room contains " + formatting.oxfordComma(itemNames) + ".")
 		
 		# Show valid moves
@@ -37,7 +38,7 @@ class Game(object):
 			print("You can go " + formatting.oxfordComma(doors) + ".")
 			
 	def inventory(self):
-		itemNames = formatting.itemNamesIndefinite(self.player.inventory.items)
+		itemNames = formatting.inventoryItems(self.player.inventory)
 		weapon = self.player.weapon
 	
 		if not weapon:

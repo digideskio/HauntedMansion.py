@@ -5,6 +5,14 @@ from item import Item
 from nounPhrase.adjective import Adjective
 from nounPhrase.noun import Noun
 
+itemGenerators = [
+	lambda: Item(Adjective("exquisite", Noun("candlestick"))),
+	lambda: Item(Adjective("wooden", Noun("candlestick"))),
+	lambda: Item(Noun("key")),
+	lambda: Item(Adjective("silver", Noun("dagger")), isWeapon=True),
+	lambda: Item(Adjective("herbal", Noun("remedy")))
+]
+
 roomTitles = [
 		# Very opulent rooms
 		("Decorated Hallway", 8, 10),
@@ -66,17 +74,6 @@ def createMaze(width, height):
 	startingLocation = rooms[startRow][startCol]
 	return (rooms, startingLocation)
 	
-def makeItem():
-	val = random.random()
-	if val > 0.75:
-		return Item(Adjective("exquisite", Noun("candlestick")))
-	elif val > 0.50:
-		return Item(Adjective("wooden", Noun("candlestick")))
-	elif val > 0.25:
-		return Item(Noun("key"))
-	else:
-		return Item(Adjective("silver", Noun("dagger")), isWeapon=True)
-	
 def makeLocation(mazeCell):
 	level = min(10, mazeCell.distance)
 	validTitles = [title for (title, min, max) in roomTitles if min <= level <= max]
@@ -90,7 +87,7 @@ def makeLocation(mazeCell):
 	if random.random() > 0.0:
 		numItems = random.randint(1, 3)
 		for i in range(numItems):
-			item = makeItem()
+			item = random.choice(itemGenerators)()
 			location.inventory.add(item)
 	
 	return location
