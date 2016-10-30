@@ -1,15 +1,15 @@
 
 from colorama import Fore, Back, Style
 
-def oxfordComma(items):
+def oxfordComma(items, conjunction="and"):
 	if len(items) == 1:
 		return str(items[0])
 	if len(items) == 2 :
-		return items[0] + " and " + items[1]
+		return items[0] + " " + conjunction + " " + items[1]
 		
 	return ", ".join(
 			items[0:len(items)-1]
-	) + ", and " + items[len(items)-1]
+	) + ", " + conjunction + " " + items[len(items)-1]
 	
 def number(n):
 	# TODO generalize this
@@ -36,6 +36,9 @@ def inventoryItems(inventory):
 	
 def itemNamesIndefinite(items):
 	return [itemName(item, item.name.makeIndefinite()) for item in items]
+	
+def itemNamesDefinite(items):
+	return [itemName(item, item.name.makeDefinite()) for item in items]
 	
 def itemName(item, name=None):
 	if not name:

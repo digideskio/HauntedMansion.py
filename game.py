@@ -56,12 +56,27 @@ class Game(object):
 				
 	def get(self, name):
 		validItems = self.playerLocation.inventory.identify(name)
-		if (validItems):
-			itemToGet = validItems[0]
-			self.playerLocation.inventory.remove(itemToGet)
-			self.player.inventory.add(itemToGet)
-			simpleItemName = itemToGet.name.stripAdjectives().makeDefinite()
-			print("You collect " + formatting.itemName(itemToGet, simpleItemName) + ".")
+		if validItems:
+			itemToGet = None
+		
+			# When only one item, pick it update
+			if len(validItems) == 1:
+				itemToGet = validItems[0]				
+			# Ask the player for disambiguation
+			else:
+				itemNames = formatting.itemNamesDefinite(validItems)
+				allSameName = all(itemName == itemNames[0] for itemName in itemNames)
+				if allSameName:
+					itemToGet = validItems[0]
+				else:
+					print("\"" + name.capitalize() + "\" is ambiguous; Did you mean " + formatting.oxfordComma(itemNames, conjunction="or") + "?")
+				
+			# Collect the item, if one was identified
+			if itemToGet:
+				self.playerLocation.inventory.remove(itemToGet)
+				self.player.inventory.add(itemToGet)
+				simpleItemName = itemToGet.name.stripAdjectives().makeDefinite()
+				print("You collect " + formatting.itemName(itemToGet, simpleItemName) + ".")
 		else:
 			print("There is nothing here called \"" + name + "\".")
 			
