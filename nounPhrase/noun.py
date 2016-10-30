@@ -8,7 +8,7 @@ class Noun(object):
 		self.value = value
 		
 	def pluralize(self):
-		# TODO generalize this; also allow an irregular plural form to be passed
+		# TODO also allow an irregular plural form to be passed
 		if self.value[-1] == "y" and not nounPhraseModule.isVowel(self.value[-2]):
 			pluralForm = self.value[0:-1] + "ies"
 		else:

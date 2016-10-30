@@ -27,7 +27,6 @@ class Game(object):
 		# Show items
 		if self.playerLocation.inventory.items:
 			itemNames = formatting.inventoryItems(self.playerLocation.inventory)
-			# itemNames = formatting.itemNamesIndefinite(self.playerLocation.inventory.items)
 			print("The room contains " + formatting.oxfordComma(itemNames) + ".")
 		
 		# Show valid moves
