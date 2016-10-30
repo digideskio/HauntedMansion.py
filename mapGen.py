@@ -4,13 +4,16 @@ import mazeGen
 from item import Item
 from nounPhrase.adjective import Adjective
 from nounPhrase.noun import Noun
+from nounPhrase.preposition import Preposition
 
 itemGenerators = [
 	lambda: Item(Adjective("exquisite", Noun("candlestick"))),
 	lambda: Item(Adjective("wooden", Noun("candlestick"))),
 	lambda: Item(Noun("key")),
 	lambda: Item(Adjective("silver", Noun("dagger")), isWeapon=True),
-	lambda: Item(Adjective("herbal", Noun("remedy")))
+	lambda: Item(Adjective("herbal", Noun("remedy"))),
+	lambda: Item(Preposition(Noun("phial"), "of mercury")),
+	lambda: Item(Adjective("empty", Preposition(Noun("phial"), "of mercury")))
 ]
 
 roomTitles = [
@@ -84,8 +87,8 @@ def makeLocation(mazeCell):
 	
 	location = Location(title, description, mazeCell.distance)
 	
-	if random.random() > 0.0:
-		numItems = random.randint(1, 3)
+	if random.random() > 0.25:
+		numItems = random.randint(1, 4)
 		for i in range(numItems):
 			item = random.choice(itemGenerators)()
 			location.inventory.add(item)
