@@ -7,13 +7,26 @@ from nounPhrase.noun import Noun
 from nounPhrase.preposition import Preposition
 
 itemGenerators = [
-	lambda: Item(Adjective("exquisite", Noun("candlestick"))),
-	lambda: Item(Adjective("wooden", Noun("candlestick"))),
+	# rubbish
+	lambda: Item(Adjective("dead", Noun("mouse", irregularPlural="mice"))),
+
+	# functional items
 	lambda: Item(Noun("key")),
-	lambda: Item(Adjective("silver", Noun("dagger")), isWeapon=True),
+	
+	# Victorian items
+	lambda: Item(Adjective("cigar", Noun("box"))),
+	lambda: Item(Adjective("silver", Adjective("snuff", Noun("box")))),
+	lambda: Item(Adjective("wooden", Noun("candlestick"))),
+	lambda: Item(Adjective("exquisite", Noun("candlestick"))),
 	lambda: Item(Adjective("herbal", Noun("remedy"))),
 	lambda: Item(Preposition(Noun("phial"), "of mercury")),
-	lambda: Item(Adjective("empty", Preposition(Noun("phial"), "of mercury")))
+	lambda: Item(Adjective("empty", Preposition(Noun("phial"), "of mercury"))),
+	lambda: Item(Adjective("world", Noun("atlas"))),
+	
+	# weapons
+	lambda: Item(Adjective("cheese", Noun("knife")), isWeapon=True),
+	lambda: Item(Adjective("silver", Noun("dagger")), isWeapon=True),
+	lambda: Item(Adjective("antique", Noun("sabre")), isWeapon=True),
 ]
 
 roomTitles = [
@@ -90,7 +103,8 @@ def makeLocation(mazeCell):
 	if random.random() > 0.25:
 		numItems = random.randint(1, 4)
 		for i in range(numItems):
-			item = random.choice(itemGenerators)()
+			makeItem = random.choice(itemGenerators)
+			item = makeItem()
 			location.inventory.add(item)
 	
 	return location

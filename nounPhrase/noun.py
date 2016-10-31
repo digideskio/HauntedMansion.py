@@ -4,13 +4,19 @@ from nounPhrase.indefinite import Indefinite
 from nounPhrase.definite import Definite
 
 class Noun(object):
-	def __init__(self, value):
+	def __init__(self, value, irregularPlural=None):
 		self.value = value
+		self.irregularPlural = irregularPlural
 		
 	def pluralize(self):
-		# TODO also allow an irregular plural form to be passed
-		if self.value[-1] == "y" and not nounPhraseModule.isVowel(self.value[-2]):
+		if self.irregularPlural is not None:
+			return Noun(self.irregularPlural)
+	
+		lastLetter = self.value[-1]
+		if lastLetter == "y" and not nounPhraseModule.isVowel(self.value[-2]):
 			pluralForm = self.value[0:-1] + "ies"
+		elif lastLetter in ["s", "x"]:
+			pluralForm = self.value + "es"
 		else:
 			pluralForm = self.value + "s"
 		return Noun(pluralForm)

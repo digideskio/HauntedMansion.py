@@ -3,6 +3,7 @@ import formatting
 from nounPhrase.adjective import Adjective
 from nounPhrase.noun import Noun
 from nounPhrase.alwaysDefinite import AlwaysDefinite
+from nounPhrase.preposition import Preposition
 from item import Item
 from player import Player
 from colorama import Fore, Back, Style
@@ -17,6 +18,7 @@ class Game(object):
 		self.player = Player()
 		self.player.weapon = Item(Adjective("rusty", Noun("dagger")), isWeapon=True)
 		mansionKey = Item(AlwaysDefinite(Adjective("mansion", Noun("key"))))
+		mansionKey = Item(AlwaysDefinite(Preposition(Noun("key"), "to the mansion")))
 		self.player.inventory.add(mansionKey)
 		
 	def look(self):
