@@ -1,11 +1,17 @@
 
+import nounPhrase as nounPhraseModule
 from nounPhrase.indefinite import Indefinite
 from nounPhrase.definite import Definite
 
 class Adjective(object):
-	def __init__(self, adjective, nounPhrase):
+	def __init__(self, adjective, nounPhrase, hasVowelSound=None):
 		self.adjective = adjective
 		self.nounPhrase = nounPhrase
+		
+		if hasVowelSound is not None:
+			self.hasVowelSound = hasVowelSound
+		else:
+			self.hasVowelSound = nounPhraseModule.isVowel(adjective[0])
 		
 	def stripAdjectives(self):
 		return self.nounPhrase.stripAdjectives()

@@ -24,7 +24,7 @@ itemGenerators = [
 	
 	# Victorian items
 	(3, 6, lambda: Item(Adjective("wooden", Noun("candlestick")))),
-	(3, 6, lambda: Item(Adjective("herbal", Noun("remedy")))),
+	(3, 6, lambda: Item(Adjective("herbal", Noun("remedy"), hasVowelSound=True))),
 	(2, 7, lambda: Item(Adjective("empty", Preposition(Noun("phial"), "of mercury")))),
 	(3, 7, lambda: Item(Preposition(Noun("phial"), "of mercury"))),
 	(5, 10, lambda: Item(Adjective("cigar", Noun("box")))),

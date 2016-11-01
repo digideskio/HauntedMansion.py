@@ -4,9 +4,14 @@ from nounPhrase.indefinite import Indefinite
 from nounPhrase.definite import Definite
 
 class Noun(object):
-	def __init__(self, value, irregularPlural=None):
+	def __init__(self, value, irregularPlural=None, hasVowelSound=None):
 		self.value = value
 		self.irregularPlural = irregularPlural
+		
+		if hasVowelSound is not None:
+			self.hasVowelSound = hasVowelSound
+		else:
+			self.hasVowelSound = nounPhraseModule.isVowel(value[0])
 		
 	def pluralize(self):
 		if self.irregularPlural is not None:

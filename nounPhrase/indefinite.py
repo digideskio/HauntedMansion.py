@@ -7,10 +7,9 @@ class Indefinite(object):
 		
 	def toString(self, formatNonArticles=None):
 		phraseString = self.nounPhrase.toString()
-		startsWithVowel = nounPhraseModule.startsWithVowel(phraseString)
 		if (formatNonArticles):
 			phraseString = formatNonArticles(phraseString)
-		return ("an " if startsWithVowel else "a ") + phraseString
+		return ("an " if self.nounPhrase.hasVowelSound else "a ") + phraseString
 		
 	def pluralize(self):
 		return Indefinite(self.nounPhrase.pluralize())

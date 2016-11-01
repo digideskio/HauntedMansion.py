@@ -1,11 +1,17 @@
 
+import nounPhrase as nounPhraseModule
 from nounPhrase.indefinite import Indefinite
 from nounPhrase.definite import Definite
 
 class Preposition(object):
-	def __init__(self, nounPhrase, preposition):
+	def __init__(self, nounPhrase, preposition, hasVowelSound=None):
 		self.nounPhrase = nounPhrase
 		self.preposition = preposition
+		
+		if hasVowelSound is not None:
+			self.hasVowelSound = hasVowelSound
+		else:
+			self.hasVowelSound = nounPhrase.hasVowelSound
 		
 	def stripAdjectives(self):
 		return self.nounPhrase.stripAdjectives()
