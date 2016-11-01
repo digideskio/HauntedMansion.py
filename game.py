@@ -84,7 +84,8 @@ class Game(object):
 			
 	def movePlayer(self, door):
 		if not self.playerLocation.hasDoor(door):
-			print("You cannot go that way.")
+			doors = [formatting.door(door) for door in list(self.playerLocation.getDoors())]
+			print("You cannot go that way. You can go " + formatting.oxfordComma(doors, conjunction="or") + ".")
 		else:
 			print("You go " + formatting.door(door) + "...")
 			print()

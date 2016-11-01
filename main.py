@@ -27,7 +27,7 @@ def execute(command, game):
 	if (first == "look"):		
 		game.look()
 	elif (first in ["go", "move"]):
-		game.movePlayer(words[1])
+		game.movePlayer(rest)
 	elif (first == "inventory"):
 		game.inventory()
 	elif (first == "get"):
