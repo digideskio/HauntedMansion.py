@@ -11,7 +11,7 @@ from colorama import Fore, Back, Style
 class Game(object):
 	def __init__(self):
 		print("...creating a new game")
-		(maze, starting) = mapGen.createMaze(10, 10)
+		(maze, starting) = mapGen.createMaze(8, 8)
 		self.playerLocation = starting
 		
 		# Initalize the player and starting items

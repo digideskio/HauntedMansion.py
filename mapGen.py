@@ -6,27 +6,36 @@ from nounPhrase.adjective import Adjective
 from nounPhrase.noun import Noun
 from nounPhrase.preposition import Preposition
 
+#######################
+# Item Generators
+#
+# These tuples include the minimum/maximum opulence the item should be generated for,
+# and a function for generating the item.
+#######################
 itemGenerators = [
-	# rubbish
-	lambda: Item(Adjective("dead", Noun("mouse", irregularPlural="mice"))),
+	# Rubbish items
+	(0, 1, lambda: Item(Adjective("dead", Noun("mouse", irregularPlural="mice")))),
+	(0, 2, lambda: Item(Adjective("broken", Noun("cup")))),
+	(0, 2, lambda: Item(Adjective("empty", Noun("sack")))),
+	(1, 2, lambda: Item(Noun("potato"))),
 
 	# functional items
-	lambda: Item(Noun("key")),
+	(0, 10, lambda: Item(Noun("key"))),
 	
 	# Victorian items
-	lambda: Item(Adjective("cigar", Noun("box"))),
-	lambda: Item(Adjective("silver", Adjective("snuff", Noun("box")))),
-	lambda: Item(Adjective("wooden", Noun("candlestick"))),
-	lambda: Item(Adjective("exquisite", Noun("candlestick"))),
-	lambda: Item(Adjective("herbal", Noun("remedy"))),
-	lambda: Item(Preposition(Noun("phial"), "of mercury")),
-	lambda: Item(Adjective("empty", Preposition(Noun("phial"), "of mercury"))),
-	lambda: Item(Adjective("world", Noun("atlas"))),
+	(3, 6, lambda: Item(Adjective("wooden", Noun("candlestick")))),
+	(3, 6, lambda: Item(Adjective("herbal", Noun("remedy")))),
+	(2, 7, lambda: Item(Adjective("empty", Preposition(Noun("phial"), "of mercury")))),
+	(3, 7, lambda: Item(Preposition(Noun("phial"), "of mercury"))),
+	(5, 10, lambda: Item(Adjective("cigar", Noun("box")))),
+	(4, 8, lambda: Item(Adjective("world", Noun("atlas")))),
+	(6, 10, lambda: Item(Adjective("silver", Adjective("snuff", Noun("box"))))),
+	(8, 10, lambda: Item(Adjective("exquisite", Noun("candlestick")))),
 	
 	# weapons
-	lambda: Item(Adjective("cheese", Noun("knife")), isWeapon=True),
-	lambda: Item(Adjective("silver", Noun("dagger")), isWeapon=True),
-	lambda: Item(Adjective("antique", Noun("sabre")), isWeapon=True),
+	(1, 4, lambda: Item(Adjective("cheese", Noun("knife")), isWeapon=True)),
+	(5, 8, lambda: Item(Adjective("silver", Noun("dagger")), isWeapon=True)),
+	(10, 10, lambda: Item(Adjective("antique", Noun("sabre")), isWeapon=True))
 ]
 
 roomTitles = [
@@ -91,8 +100,8 @@ def createMaze(width, height):
 	return (rooms, startingLocation)
 	
 def makeLocation(mazeCell):
-	level = min(10, mazeCell.distance)
-	validTitles = [title for (title, min, max) in roomTitles if min <= level <= max]
+	opulence = min(10, mazeCell.distance)
+	validTitles = [title for (title, min, max) in roomTitles if min <= opulence <= max]
 	title = random.choice(validTitles)
 	
 	description = random.choice(roomDecor)
@@ -102,8 +111,9 @@ def makeLocation(mazeCell):
 	
 	if random.random() > 0.25:
 		numItems = random.randint(1, 4)
+		validItemGenerators = [gen for (min, max, gen) in itemGenerators if min <= opulence <= max]
 		for i in range(numItems):
-			makeItem = random.choice(itemGenerators)
+			makeItem = random.choice(validItemGenerators)
 			item = makeItem()
 			location.inventory.add(item)
 	
