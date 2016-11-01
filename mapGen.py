@@ -33,7 +33,7 @@ itemGenerators = [
 		(8, 10, lambda: Item(Adjective("exquisite", Noun("candlestick")))),
 	
 		# weapons
-		(1, 4, lambda: Item(Adjective("cheese", Noun("knife")), isWeapon=True)),
+		(1, 4, lambda: Item(Adjective("cheese", Noun("knife", irregularPlural="knives")), isWeapon=True)),
 		(5, 8, lambda: Item(Adjective("silver", Noun("dagger")), isWeapon=True)),
 		(10, 10, lambda: Item(Adjective("antique", Noun("sabre")), isWeapon=True))
 ]
