@@ -2,12 +2,12 @@
 from inventory import Inventory
 
 class Location(object):
-	def __init__(self, name, description, distance):
+	def __init__(self, name, description, opulence):
 		self.name = name
 		self.description = description
 		self.doors = {}
-		self.inventory = Inventory()
-		self.distance = distance # distance from starting room
+		self.opulence = opulence
+		self.objects = []
 		
 	def addDoor(self, direction, location):
 		self.doors[direction] = location

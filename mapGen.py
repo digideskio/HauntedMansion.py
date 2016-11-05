@@ -5,6 +5,7 @@ from item import Item
 from nounPhrase.adjective import Adjective
 from nounPhrase.noun import Noun
 from nounPhrase.preposition import Preposition
+from gameObject import GameObject
 
 #######################
 # Item Generators
@@ -25,7 +26,7 @@ itemGenerators = [
 		# Victorian items
 		(3, 6, lambda: Item(Adjective("wooden", Noun("candlestick")))),
 		(3, 6, lambda: Item(Adjective("herbal", Noun("remedy"), hasVowelSound=True))),
-		(2, 7, lambda: Item(Adjective("empty", Preposition(Noun("phial"), "of mercury")))),
+		(2, 7, lambda: Item(Adjective("empty", Adjective("mercury", Noun("phial"))))),
 		(3, 7, lambda: Item(Preposition(Noun("phial"), "of mercury"))),
 		(5, 10, lambda: Item(Adjective("cigar", Noun("box")))),
 		(4, 8, lambda: Item(Adjective("world", Noun("atlas")))),
@@ -36,6 +37,32 @@ itemGenerators = [
 		(1, 4, lambda: Item(Adjective("cheese", Noun("knife", irregularPlural="knives")), isWeapon=True)),
 		(5, 8, lambda: Item(Adjective("silver", Noun("dagger")), isWeapon=True)),
 		(10, 10, lambda: Item(Adjective("antique", Noun("sabre")), isWeapon=True))
+]
+
+#######################
+# Object Generators
+#
+# These tuples include the minimum/maximum opulence the item should be generated for,
+# and a function for generating the item.
+#######################
+objectGenerators = [
+		(0, 1, lambda: GameObject(Preposition(Noun("pile"), "of straw"), spaces=["inside"])),
+		(0, 3, lambda: GameObject(Adjective("burlap", Noun("sack")), spaces=["inside"])),
+		(0, 3, lambda: GameObject(Adjective("wooden", Noun("crate")), spaces=["inside"])),
+		
+		(0, 4, lambda: GameObject(Adjective("oak", Noun("barrel")), spaces=["inside"])),
+		(2, 4, lambda: GameObject(Adjective("dusty", Noun("shelf")), spaces=["on"])),
+		(2, 4, lambda: GameObject(Adjective("storage", Noun("chest")), spaces=["on"])),
+		(2, 4, lambda: GameObject(Adjective("storage", Noun("cabinet")), spaces=["inside"])),
+		
+		(3, 10, lambda: GameObject(Noun("end table"), spaces=["on"])),
+		(3, 10, lambda: GameObject(Adjective("mahogany", Noun("table")), spaces=["on"])),
+		(4, 10, lambda: GameObject(Adjective("writing", Noun("desk")), spaces=["on", "inside"])),
+		(2, 4, lambda: GameObject(Adjective("fine", Adjective("wooden", Noun("shelf"))), spaces=["on"])),
+		(4, 8, lambda: GameObject(Preposition(Noun("chest"), "of drawers"), spaces=["on", "inside"])),
+		
+		(8, 10, lambda: GameObject(Adjective("ornate", Adjective("display", Noun("case"))), spaces=["inside"])),
+		(8, 10, lambda: GameObject(Adjective("gilded", Adjective("sea", Noun("chest"))), spaces=["on", "in"]))
 ]
 
 #######################
@@ -134,18 +161,35 @@ def makeLocation(mazeCell):
 	decors = [random.choice(validDecor) for i in range(numDecor)]
 	description = " ".join(list(set(decors)))
 	
-	location = Location(title, description, mazeCell.distance)
-	
-	# Items
-	if random.random() > 0.25:
-		numItems = random.randint(1, 4)
-		validItemGenerators = [gen for (min, max, gen) in itemGenerators if min <= opulence <= max]
-		for i in range(numItems):
-			makeItem = random.choice(validItemGenerators)
-			item = makeItem()
-			location.inventory.add(item)
-	
+	location = Location(title, description, opulence)
+		
+	# Objects in room
+	numObjects = random.randint(1, 4)
+	for i in range(numObjects):
+		object = makeObject(location)
+		location.objects.append(object)
+		
 	return location
+	
+def makeItem(location):
+	validItemGenerators = [gen for (min, max, gen) in itemGenerators if min <= location.opulence <= max]
+	makeItem = random.choice(validItemGenerators)
+	return makeItem()
+	
+def makeObject(location):
+	generators = [gen for (min, max, gen) in objectGenerators if min <= location.opulence <= max]
+	
+	makeObject = random.choice(generators)
+	object = makeObject()
+	
+	# Add items
+	for space in object.getSpaces():		
+		numItems = random.randint(1, 4)
+		for i in range(numItems):			
+			item = makeItem(location)
+			object.getSpace(space).add(item)
+	
+	return object
 	
 def connect(locationA, locationB, direction, inverse):
 	locationA.addDoor(direction, locationB)

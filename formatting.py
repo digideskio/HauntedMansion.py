@@ -39,13 +39,21 @@ def itemNamesIndefinite(items):
 	
 def itemNamesDefinite(items):
 	return [itemName(item, item.name.makeDefinite()) for item in items]
-	
+
 def itemName(item, name=None):
 	if not name:
 		name = item.name
 		
 	textColor = Fore.RED if item.isWeapon else Fore.YELLOW
 	format = lambda text: textColor + text + Style.RESET_ALL
+		
+	return name.toString(format)
+
+def roomFeatureName(object, name=None):
+	if not name:
+		name = object.name
+		
+	format = lambda text: Fore.CYAN + text + Style.RESET_ALL
 		
 	return name.toString(format)
 	
