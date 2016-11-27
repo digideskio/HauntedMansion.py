@@ -35,7 +35,8 @@ class Game(object):
 				if spaces:
 					for space in spaces:
 						itemNames = formatting.inventoryItems(object.getSpace(space))
-						desc += " " + space.capitalize() + " it you see " + formatting.oxfordComma(itemNames) + "."
+						if (itemNames):
+							desc += " " + space.capitalize() + " it you see " + formatting.oxfordComma(itemNames) + "."
 				print(desc)
 			print()
 		
@@ -65,7 +66,19 @@ class Game(object):
 				print("You carry " + formatting.oxfordComma(itemNames) + ".")
 				
 	def get(self, name):
-		None
+		itemObjectPaths = self.playerLocation.identify(name)
+		if not itemObjectPaths:
+			print("There is nothing here called \"" + name + "\".");
+		else:
+			(object, objectPath) = itemObjectPaths[0]
+			space = list(objectPath.keys())[0]
+			item = objectPath[space][0]
+			print("You take " + formatting.itemName(item, item.name.makeDefinite())
+				+ " from " + space + " " 
+				+ formatting.roomFeatureName(object, object.name.stripAdjectives().makeDefinite()) + ".")
+
+			object.removeItem(item, space)
+			self.player.inventory.add(item)
 			
 	def movePlayer(self, door):
 		if not self.playerLocation.hasDoor(door):

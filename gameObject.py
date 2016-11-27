@@ -17,3 +17,15 @@ class GameObject(object):
 		
 	def getSpace(self, prep):
 		return self.spaces[prep]
+
+	def removeItem(self, item, space):
+		self.spaces[space].remove(item)
+
+	def identify(self, name):
+		paths = {};
+		for space in self.spaces.keys():
+			itemsInSpace = self.spaces[space].identify(name)
+			if itemsInSpace:
+				paths[space] = itemsInSpace
+
+		return paths

@@ -56,4 +56,3 @@ def roomFeatureName(object, name=None):
 	format = lambda text: Fore.CYAN + text + Style.RESET_ALL
 		
 	return name.toString(format)
-	

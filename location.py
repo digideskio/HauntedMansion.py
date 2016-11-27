@@ -20,3 +20,15 @@ class Location(object):
 		
 	def getDoor(self, direction):
 		return self.doors.get(direction)
+
+	def addObject(self, object):
+		self.objects.append(object)
+
+	def identify(self, name):
+		objectPaths = []
+		for object in self.objects:
+			objectPath = object.identify(name)
+			if objectPath:
+				objectPaths.append((object, objectPath))
+
+		return objectPaths

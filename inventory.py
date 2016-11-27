@@ -25,6 +25,9 @@ class Inventory(object):
 		items.remove(item)
 		if len(items) == 0:
 			del self.itemsByName[itemName]
+
+	def contains(self, item):
+		return self.items.contains(item)
 				
 	# return a list of items in this inventory that can be identified by the given name
 	def identify(self, name):
